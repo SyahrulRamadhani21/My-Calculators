@@ -62,7 +62,8 @@ class _MyHomePageState extends State<MyHomePage> {
         result= double.parse(numberString) ?? 0;
         numberString='';
         operation = title;
-
+        // perbagus ui
+        // perbagus button
       }
       else if (title == 'CE'){
         numberString= '';

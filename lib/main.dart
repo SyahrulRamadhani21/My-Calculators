@@ -28,13 +28,16 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String displayString = '0';
+  String numberString = '0';
+  double result = 0;
+  String operation;
 
   Widget createButton (String title){
     return Expanded(
       child: ButtonTheme(
         height: double.infinity,
         child: OutlineButton(
-          onPressed: () => {},
+          onPressed: () => pressButton(title),
           child: Text(title,
           style: TextStyle(
             fontSize: 30,
@@ -52,6 +55,58 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  pressButton(String title){
+    setState(() {
+      if(title == '+' || title ==  '-' ||title == '/' || title =='^'
+          ||title == '%' || title =='*'){
+        result= double.parse(numberString) ?? 0;
+        numberString='';
+        operation = title;
+
+      }
+      else if (title == 'CE'){
+        numberString= '';
+        displayString='0';
+        result=0;
+      }else if(title == '='){
+      calculate();
+      }
+      else{
+        if (numberString == '0' || numberString == '0.0'){
+          numberString='';
+        }
+        numberString += title;
+        displayString = numberString;
+      }
+    });
+  }
+  calculate(){
+    switch (operation){
+      case '+':
+        result= result +=double.parse(numberString);
+        break;
+      case '-':
+        result= result -=double.parse(numberString);
+        break;
+      case '/':
+        result= result /=double.parse(numberString);
+        break;
+      case '*':
+        result= result *=double.parse(numberString);
+        break;
+      case '%':
+        result= result %=double.parse(numberString);
+        break;
+      case '^':
+        result= result +=double.parse(numberString);
+        break;
+      default:
+        break;
+    }
+    numberString= result.toString();
+    displayString=numberString;
+  }
+
   Widget createButtonFull(String title1,String title2,String title3,String title4){
     return Expanded(
       child: Row(
@@ -63,7 +118,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
     );
-    //he;;
   }
 
   @override
@@ -94,11 +148,11 @@ class _MyHomePageState extends State<MyHomePage> {
             Expanded(
               child: Column(
               children: <Widget>[
-                    createButtonFull('+', '-', '*', 'CE'),
-                    createButtonFull('7', '8', '9', '/'),
-                    createButtonFull('4', '5', '6', '%'),
-                    createButtonFull('1', '2', '3', '^'),
-                    createButtonFull('', '0', '', '='),
+                    createButtonFull('%', '/', '*', 'CE'),
+                    createButtonFull('7', '8', '9', '+'),
+                    createButtonFull('4', '5', '6', '-'),
+                    createButtonFull('1', '2', '3', '='),
+                    createButtonFull('', '0', '', ''),
               ],
               ),
             ),
